@@ -1,0 +1,11 @@
+.sign-up {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+}
+
+.sign-up > img {
+  position: fixed;
+  z-index: 1;
+}
