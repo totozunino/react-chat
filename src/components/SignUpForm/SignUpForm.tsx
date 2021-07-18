@@ -59,7 +59,7 @@ const SignUpForm: React.FC = () => {
         {isLoading ? <Spinner /> : <span>Login</span>}
       </button>
       <p>
-        Already have an account? <Link to="login">Login in</Link>
+        Already have an account? <Link to="login">Log in</Link>
       </p>
       <img src={googleImg} alt="Google" width="32" />
     </form>
