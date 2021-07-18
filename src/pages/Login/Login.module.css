@@ -1,0 +1,11 @@
+.login {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+}
+
+.login > img {
+  position: fixed;
+  z-index: 1;
+}
