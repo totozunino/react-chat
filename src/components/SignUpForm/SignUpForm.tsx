@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Spinner from "components/UI/Spinner/Spinner";
 import Input, { useInput } from "components/UI/Input/Input";
 import googleImg from "assets/images/google.png";
-import { auth } from "firebase/index";
+import { auth, db } from "firebase/index";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import classes from "./SignUpForm.module.css";
@@ -28,16 +28,19 @@ const SignUpForm: React.FC = () => {
             setIsLoading(true);
             const userCredentials = await auth.createUserWithEmailAndPassword(email.value, password.value);
             if (userCredentials.user) await userCredentials.user.updateProfile({ displayName: username.value });
+            await db.ref("/users").push({ email: email.value, username: username.value });
+            setIsLoading(false);
             history.push("/login");
             toast.success("👌 Your account was created successfully", {
               style: { backgroundColor: "#71af74" },
             });
           } catch (err) {
+            setIsLoading(false);
             if (err.code === "auth/email-already-in-use") {
               setError("A user with this email already exists");
+            } else {
+              toast.error("Something went wrong, try again later");
             }
-          } finally {
-            setIsLoading(false);
           }
         } else {
           setError("Password must have at least 6 characters");
@@ -56,7 +59,7 @@ const SignUpForm: React.FC = () => {
       <Input type="password" placeholder="Password" value={password.value} onChange={password.onChange} />
       {error && <p className={classes["sign-up-error"]}>{error}</p>}
       <button type="submit" className={classes["sign-up-btn"]}>
-        {isLoading ? <Spinner /> : <span>Login</span>}
+        {isLoading ? <Spinner /> : <span>Register</span>}
       </button>
       <p>
         Already have an account? <Link to="login">Log in</Link>
