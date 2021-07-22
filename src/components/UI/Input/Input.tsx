@@ -24,10 +24,18 @@ type InputProps = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   type: "text" | "password" | "number";
+  style?: Record<string, unknown>;
 };
 
-const Input: React.FC<InputProps> = ({ type, placeholder, value, onChange }) => (
-  <input className={classes.input} type={type} placeholder={placeholder} value={value} onChange={onChange} />
+const Input: React.FC<InputProps> = ({ type, placeholder, value, onChange, style }) => (
+  <input
+    className={classes.input}
+    type={type}
+    placeholder={placeholder}
+    value={value}
+    onChange={onChange}
+    style={style}
+  />
 );
 
 export default Input;

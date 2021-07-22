@@ -1,6 +1,10 @@
 import React from "react";
 import classes from "./Spinner.module.css";
 
-const Spinner: React.FC = () => <div className={classes.loader} />;
+type SpinnerProps = {
+  style?: Record<string, unknown>;
+};
+
+const Spinner: React.FC<SpinnerProps> = ({ style }) => <div className={classes.loader} style={style} />;
 
 export default Spinner;
