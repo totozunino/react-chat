@@ -20,17 +20,3 @@
   text-align: start;
   font-size: 13px;
 }
-
-.login-btn {
-  cursor: pointer;
-  background: linear-gradient(90deg, #8ec590, #71af74);
-  box-shadow: 0 0 4px 0 #8ec590;
-  border: none;
-  padding: 12px;
-  border-radius: 3px;
-  color: #fff;
-  font-size: inherit;
-  font-family: inherit;
-  margin: 25px 0 15px;
-  min-height: 50px;
-}

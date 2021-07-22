@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { auth } from "firebase/index";
 import googleImg from "assets/images/google.png";
 import Spinner from "components/UI/Spinner/Spinner";
+import Button from "components/UI/Button/Button";
 import Input, { useInput } from "components/UI/Input/Input";
 import { Link } from "react-router-dom";
 import classes from "./LoginForm.module.css";
 
 const emailPattern =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const buttonStyles = {
+  margin: "25px 0 15px",
+};
 
 const LoginForm: React.FC = () => {
   const email = useInput<string>("");
@@ -42,9 +47,9 @@ const LoginForm: React.FC = () => {
       <Input type="text" placeholder="Email" value={email.value} onChange={email.onChange} />
       <Input type="password" placeholder="Password" value={password.value} onChange={password.onChange} />
       {error && <p className={classes["login-error"]}>{error}</p>}
-      <button type="submit" className={classes["login-btn"]}>
+      <Button type="submit" style={buttonStyles}>
         {isLoading ? <Spinner /> : <span>Login</span>}
-      </button>
+      </Button>
       <p>
         Don&apos;t have an account yet? <Link to="signup">Sign up</Link>
       </p>

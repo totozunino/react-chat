@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Spinner from "components/UI/Spinner/Spinner";
+import Button from "components/UI/Button/Button";
 import Input, { useInput } from "components/UI/Input/Input";
 import googleImg from "assets/images/google.png";
 import { auth, db } from "firebase/index";
@@ -9,6 +10,10 @@ import classes from "./SignUpForm.module.css";
 
 const emailPattern =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const buttonStyles = {
+  margin: "25px 0 15px",
+};
 
 const SignUpForm: React.FC = () => {
   const username = useInput<string>("");
@@ -27,8 +32,12 @@ const SignUpForm: React.FC = () => {
           try {
             setIsLoading(true);
             const userCredentials = await auth.createUserWithEmailAndPassword(email.value, password.value);
-            if (userCredentials.user) await userCredentials.user.updateProfile({ displayName: username.value });
-            await db.ref("/users").push({ email: email.value, username: username.value });
+            if (userCredentials.user) {
+              await userCredentials.user.updateProfile({ displayName: username.value });
+              await db
+                .ref("/users")
+                .push({ id: userCredentials.user.uid, email: email.value, username: username.value });
+            }
             setIsLoading(false);
             history.push("/login");
             toast.success("👌 Your account was created successfully", {
@@ -58,9 +67,9 @@ const SignUpForm: React.FC = () => {
       <Input type="text" placeholder="Email" value={email.value} onChange={email.onChange} />
       <Input type="password" placeholder="Password" value={password.value} onChange={password.onChange} />
       {error && <p className={classes["sign-up-error"]}>{error}</p>}
-      <button type="submit" className={classes["sign-up-btn"]}>
+      <Button type="submit" style={buttonStyles}>
         {isLoading ? <Spinner /> : <span>Register</span>}
-      </button>
+      </Button>
       <p>
         Already have an account? <Link to="login">Log in</Link>
       </p>
