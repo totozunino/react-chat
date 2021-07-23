@@ -18,3 +18,18 @@
   font-weight: lighter;
   margin: 0;
 }
+
+.profile {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+}
+
+.profile > h4 {
+  margin-right: 10px;
+}
+
+.logout {
+  margin-left: 10px;
+  cursor: pointer;
+}

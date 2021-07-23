@@ -13,3 +13,7 @@ export async function register(email: string, password: string, username: string
 export function login(email: string, password: string): Promise<UserCredential> {
   return auth.signInWithEmailAndPassword(email, password);
 }
+
+export function logout(): Promise<void> {
+  return auth.signOut();
+}
