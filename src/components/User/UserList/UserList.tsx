@@ -47,7 +47,7 @@ const UserList: React.FC = () => {
 
   return (
     <section className={classes["user-list"]}>
-      <h1>Find people to start chatting</h1>
+      <h1 style={{ margin: 0 }}>Find people to start chatting</h1>
       <Input
         placeholder="Search people..."
         type="text"
