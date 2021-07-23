@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { auth } from "firebase/index";
+import { login } from "services/auth";
 import googleImg from "assets/images/google.png";
 import Spinner from "components/UI/Spinner/Spinner";
 import Button from "components/UI/Button/Button";
 import Input, { useInput } from "components/UI/Input/Input";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import classes from "./LoginForm.module.css";
 
 const emailPattern =
@@ -19,6 +19,7 @@ const LoginForm: React.FC = () => {
   const password = useInput<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const history = useHistory();
 
   const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
@@ -27,7 +28,8 @@ const LoginForm: React.FC = () => {
       if (emailPattern.test(email.value)) {
         try {
           setIsLoading(true);
-          await auth.signInWithEmailAndPassword(email.value, password.value);
+          await login(email.value, password.value);
+          history.replace("/");
         } catch (err) {
           if (err.code === "auth/user-not-found") {
             setError("Incorrect credentials");
@@ -46,7 +48,11 @@ const LoginForm: React.FC = () => {
       <h1 className={classes["login-title"]}>React Chat App</h1>
       <Input type="text" placeholder="Email" value={email.value} onChange={email.onChange} />
       <Input type="password" placeholder="Password" value={password.value} onChange={password.onChange} />
-      {error && <p className={classes["login-error"]}>{error}</p>}
+      {error && (
+        <p className={classes["login-error"]} data-testid="error">
+          {error}
+        </p>
+      )}
       <Button type="submit" style={buttonStyles}>
         {isLoading ? <Spinner /> : <span>Login</span>}
       </Button>
