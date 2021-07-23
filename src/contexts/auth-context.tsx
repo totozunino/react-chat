@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 
 type AuthContextProps = {
   currentUser?: firebase.User | null;
+  isAuthenticated?: boolean;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({});
@@ -12,9 +13,11 @@ export const useAuth = (): AuthContextProps => useContext(AuthContext);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsAuthenticated(user != null);
       setCurrentUser(user);
     });
 
@@ -23,6 +26,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const value = {
     currentUser,
+    isAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -34,7 +34,6 @@ const LoginForm: React.FC = () => {
           if (err.code === "auth/user-not-found") {
             setError("Incorrect credentials");
           }
-        } finally {
           setIsLoading(false);
         }
       } else {
