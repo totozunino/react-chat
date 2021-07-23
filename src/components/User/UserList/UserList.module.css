@@ -1,0 +1,8 @@
+.user-list {
+  max-width: 800px;
+  margin: auto;
+}
+
+.user-list > ul {
+  padding: 0;
+}

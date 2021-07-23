@@ -1,0 +1,16 @@
+.user-list-item {
+  list-style: none;
+  margin: 1rem;
+}
+
+.username {
+  margin: 0;
+}
+
+.content {
+  margin: auto auto auto 20px;
+}
+
+.email {
+  margin: 0;
+}
