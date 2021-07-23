@@ -2,6 +2,7 @@ import React from "react";
 import { AuthProvider } from "contexts/auth-context";
 import Login from "pages/Login/Login";
 import SignUp from "pages/SignUp/SignUp";
+import Home from "pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App: React.FC = () => (
@@ -9,7 +10,7 @@ const App: React.FC = () => (
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Login />
+          <Home />
         </Route>
         <Route path="/login">
           <Login />
