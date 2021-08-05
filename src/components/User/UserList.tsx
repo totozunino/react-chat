@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { db } from "firebase/index";
-import UserListItem from "components/User/UserList/UserListItem";
+import UserListItem from "components/User/UserListItem";
 import Input from "components/UI/Input/Input";
 import Spinner from "components/UI/Spinner/Spinner";
+import getUsers from "services/user";
 import { User } from "types/user";
 import classes from "./UserList.module.css";
 
@@ -27,14 +27,8 @@ const UserList: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     const timeoutId = setTimeout(() => {
-      db.ref("/users")
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.val();
-          const usersKeys = Object.keys(data);
-          let userList: User[] = usersKeys.map((userKey: string) => data[userKey]);
-          if (search)
-            userList = userList.filter((user) => user.username.includes(search) || user.email.includes(search));
+      getUsers(search)
+        .then((userList: User[]) => {
           setUsers(userList);
         })
         .catch((_err) => {
