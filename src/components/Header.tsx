@@ -23,29 +23,29 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="flex items-center bg-white shadow-xl py-2 px-4">
+    <header className="fixed top-0 flex items-center w-full px-4 py-2 bg-white shadow-lg sm:relative">
       <ReactLogo className="w-20" />
       <div>
         <h2 className="font-bold">React Chat App</h2>
         <p className="font-extralight">by @totoz</p>
       </div>
-      <div className="flex ml-auto relative">
+      <div className="relative flex ml-auto">
         <button type="button" onClick={() => setShowDropdown((prevState) => !prevState)}>
           <img src={AvatarImg} alt="Profile Avatar" className="w-12" />
         </button>
         {showDropdown && (
           <div
             ref={dropdownRef}
-            className="z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow absolute right-0 top-14"
+            className="absolute right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded shadow w-44 top-14"
           >
-            <div className="py-3 px-4 text-gray-900">
+            <div className="px-4 py-3 text-gray-900">
               <span className="block text-sm">{currentUser?.displayName}</span>
-              <span className="block text-sm font-extralight truncate">{currentUser?.email}</span>
+              <span className="block text-sm truncate font-extralight">{currentUser?.email}</span>
             </div>
             <ul className="py-1">
               <li>
                 <button
-                  className="w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
+                  className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   type="button"
                   onClick={handleSignOut}
                 >
