@@ -24,3 +24,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.message-enter {
+  opacity: 0;
+}
+.message-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.message-exit {
+  opacity: 1;
+}
+.message-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}

@@ -3,9 +3,10 @@ import AvatarImg from "assets/images/avatar.png";
 import { ReactComponent as ReactLogo } from "logo.svg";
 import { useAuth } from "contexts/auth-context";
 import { signOut } from "firebase/auth";
-import { auth } from "fb/index";
 import { useNavigate } from "react-router-dom";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const Header: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -18,20 +19,26 @@ const Header: React.FC = () => {
   });
 
   const handleSignOut = async () => {
+    if (currentUser)
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        isOnline: false,
+      });
     await signOut(auth);
     navigate("/login", { replace: true });
   };
 
   return (
     <header className="fixed top-0 flex items-center w-full px-4 py-2 bg-white shadow-lg sm:relative">
-      <ReactLogo className="w-20" />
+      <button type="button" onClick={() => navigate("/")}>
+        <ReactLogo className="w-20" />
+      </button>
       <div>
         <h2 className="font-bold">React Chat App</h2>
         <p className="font-extralight">by @totoz</p>
       </div>
       <div className="relative flex ml-auto">
         <button type="button" onClick={() => setShowDropdown((prevState) => !prevState)}>
-          <img src={AvatarImg} alt="Profile Avatar" className="w-12" />
+          <img src={currentUser?.photoURL || AvatarImg} alt="Profile Avatar" className="w-12 rounded-full" />
         </button>
         {showDropdown && (
           <div

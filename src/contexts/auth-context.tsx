@@ -1,6 +1,6 @@
 import React, { useState, useContext, useMemo, useEffect } from "react";
-import { auth } from "fb/index";
 import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "../firebase";
 
 type AuthContextProps = {
   currentUser: User | null;

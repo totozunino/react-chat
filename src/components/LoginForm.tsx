@@ -3,13 +3,14 @@ import googleImg from "assets/images/google.png";
 import Input from "components/UI/Input";
 import Button from "components/UI/Button";
 import { emailRegex } from "utils/utils";
-import { auth } from "fb/index";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { FirebaseErrorCodes } from "enums/enums";
 import { signInWithGoogle } from "services/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +24,10 @@ const LoginForm: React.FC = () => {
       if (!emailRegex.test(email)) setError("Invalid email address");
       else {
         try {
-          await signInWithEmailAndPassword(auth, email, password);
+          const { user } = await signInWithEmailAndPassword(auth, email, password);
+          await updateDoc(doc(db, "users", user.uid), {
+            isOnline: true,
+          });
           navigate("/", { replace: true });
         } catch (err) {
           if (err instanceof FirebaseError) {
@@ -39,7 +43,10 @@ const LoginForm: React.FC = () => {
 
   const handleLoginWithGoogle = async () => {
     try {
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+      await updateDoc(doc(db, "users", user.uid), {
+        isOnline: true,
+      });
       navigate("/", { replace: true });
     } catch (err) {
       if (err instanceof FirebaseError && err.code === FirebaseErrorCodes.CLOSED_BY_USER) return;

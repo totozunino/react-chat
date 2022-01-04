@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "components/UI/Input";
+import Loader from "components/UI/Loader";
 import UserItem from "components/UserItem";
 import getUsers from "services/users";
 import { User } from "types/user";
@@ -31,14 +32,7 @@ const UserList: React.FC = () => {
         placeholder="Search people..."
         className="bg-gray-200"
       />
-      {isLoading && (
-        <div className="flex items-center justify-center my-8 space-x-2">
-          <div
-            className="inline-block w-10 h-10 rounded-full shadow-lg delay-50 bg-emerald-600 shadow-emerald-500/25 animate-pulse"
-            role="status"
-          />
-        </div>
-      )}
+      {isLoading && <Loader />}
       {!isLoading && users.map((user) => <UserItem key={user.id} {...user} />)}
       {!isLoading && !users.length && (
         <h1 className="my-8 text-2xl font-bold">Could not find users with that criteria 😵‍💫</h1>

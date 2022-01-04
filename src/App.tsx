@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "pages/Login";
 import SignUp from "pages/SignUp";
 import Home from "pages/Home";
+import Chat from "pages/Chat";
 import ProtectedRoute from "components/ProtectedRoute";
 import { useAuth } from "contexts/auth-context";
 
@@ -17,6 +18,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Chat />
             </ProtectedRoute>
           }
         />

@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { FirebaseErrorCodes } from "enums/enums";
 import { signInWithGoogle, signUp } from "services/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +40,10 @@ const SignUpForm: React.FC = () => {
 
   const handleSignUpWithGoogle = async () => {
     try {
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+      await updateDoc(doc(db, "users", user.uid), {
+        isOnline: true,
+      });
       navigate("/", { replace: true });
     } catch (err) {
       toast.error("Something went wrong. Please try later");

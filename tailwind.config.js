@@ -8,9 +8,15 @@ module.exports = {
       },
       maxWidth: {
         44: "176px",
+        "4/5": "80%",
       },
       spacing: {
         "73px": "73px",
+        "3%": "3%",
+        "5%": "5%",
+      },
+      height: {
+        "60vh": "60vh",
       },
       animation: {
         pulse: "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
