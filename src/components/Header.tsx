@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import ThemeToggle from "components/ThemeToggle";
 import AvatarImg from "assets/images/avatar.png";
 import { ReactComponent as ReactLogo } from "logo.svg";
 import { useAuth } from "contexts/auth-context";
@@ -28,7 +29,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="fixed top-0 flex items-center w-full px-4 py-2 bg-white shadow-lg sm:relative">
+    <header className="fixed top-0 flex items-center w-full px-4 py-2 bg-white shadow-lg dark:bg-secondary-dark sm:relative">
       <button type="button" onClick={() => navigate("/")}>
         <ReactLogo className="w-20" />
       </button>
@@ -37,22 +38,23 @@ const Header: React.FC = () => {
         <p className="font-extralight">by @totoz</p>
       </div>
       <div className="relative flex ml-auto">
+        <ThemeToggle />
         <button type="button" onClick={() => setShowDropdown((prevState) => !prevState)}>
           <img src={currentUser?.photoURL || AvatarImg} alt="Profile Avatar" className="w-12 rounded-full" />
         </button>
         {showDropdown && (
           <div
             ref={dropdownRef}
-            className="absolute right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded shadow w-44 top-14"
+            className="absolute right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-secondary-dark w-44 top-14"
           >
-            <div className="px-4 py-3 text-gray-900">
+            <div className="px-4 py-3">
               <span className="block text-sm">{currentUser?.displayName}</span>
               <span className="block text-sm truncate font-extralight">{currentUser?.email}</span>
             </div>
             <ul className="py-1">
               <li>
                 <button
-                  className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  className="w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-zinc-800"
                   type="button"
                   onClick={handleSignOut}
                 >

@@ -16,7 +16,7 @@ const Input: React.FC<InputProps> = ({ placeholder, onChange, value, type = "tex
     placeholder={placeholder}
     onChange={onChange}
     value={value}
-    className={`rounded bg-gray-100 w-11/12 p-3 m-3 ${className}`}
+    className={`rounded bg-gray-100 dark:bg-input-dark w-11/12 p-3 m-3 ${className}`}
   />
 );
 

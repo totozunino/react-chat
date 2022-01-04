@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="px-5 pt-5 bg-white rounded-lg shadow-xl">
+    <div className="px-5 pt-5 bg-white rounded-lg shadow-xl dark:bg-secondary-dark">
       <form onSubmit={handleLoginSubmit} className="flex flex-col items-center p-5 w-80">
         <h2 className="mb-8 text-3xl font-bold">React Chat App</h2>
         <Input value={email} onChange={({ target }) => setEmail(target.value)} placeholder="Email" />
@@ -74,7 +74,7 @@ const LoginForm: React.FC = () => {
           </Link>
         </p>
         <button
-          className="p-1 mt-2 cursor-pointer hover:bg-emerald-100 rounded-3xl"
+          className="p-1 mt-2 cursor-pointer hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-3xl"
           type="button"
           onClick={handleLoginWithGoogle}
         >

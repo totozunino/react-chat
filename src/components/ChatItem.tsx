@@ -58,7 +58,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ user }) => {
   return (
     <li
       className={`flex items-center my-2 cursor-pointer p-2 ${
-        isSelected ? " border-l-2 border-emerald-500 bg-gray-100" : ""
+        isSelected ? " border-l-2 border-emerald-500 bg-gray-100 dark:bg-input-dark" : ""
       }`}
       onClick={handleSelectChat}
       aria-hidden="true"

@@ -27,7 +27,7 @@ const ChatList: React.FC = () => {
   }, []);
 
   return (
-    <div className="py-4 border-r w-96">
+    <div className="py-4 border-r dark:border-input-dark w-96">
       <h2 className="text-xl font-bold">Users</h2>
       {isLoading ? (
         <Loader />

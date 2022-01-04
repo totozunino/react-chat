@@ -1,8 +1,14 @@
 module.exports = {
   content: [],
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
+      colors: {
+        "primary-dark": "#0d1117",
+        "secondary-dark": "#161b22",
+        "input-dark": "#232932",
+      },
       backgroundImage: {
         "chat-pattern": "url('assets/images/background.png')",
       },

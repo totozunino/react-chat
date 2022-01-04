@@ -14,7 +14,7 @@ const UserItem: React.FC<UserItemProps> = ({ id, email, username, photoURL }) =>
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center p-8 my-6 bg-white shadow-md rounded-tl-3xl rounded-br-3xl">
+    <div className="flex items-center p-8 my-6 bg-white shadow-md dark:bg-secondary-dark rounded-tl-3xl rounded-br-3xl">
       <div className="hidden">{id}</div>
       <img src={photoURL || AvatarImg} alt="User Profile Pic" className="w-12 rounded-full" />
       <div className="px-3 text-left max-w-44 sm:max-w-full">

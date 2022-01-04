@@ -51,7 +51,7 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <div className="px-5 pt-5 bg-white rounded-lg shadow-xl">
+    <div className="px-5 pt-5 bg-white rounded-lg shadow-xl dark:bg-secondary-dark">
       <form onSubmit={handleRegisterSubmit} className="flex flex-col items-center p-5 w-80">
         <h2 className="mb-8 text-3xl font-bold">React Chat App</h2>
         <Input value={username} onChange={({ target }) => setUsername(target.value)} placeholder="Username" />
@@ -71,7 +71,7 @@ const SignUpForm: React.FC = () => {
           </Link>
         </p>
         <button
-          className="p-1 mt-2 cursor-pointer hover:bg-emerald-100 rounded-3xl"
+          className="p-1 mt-2 cursor-pointer hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-3xl"
           type="button"
           onClick={handleSignUpWithGoogle}
         >

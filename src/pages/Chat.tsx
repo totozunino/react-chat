@@ -8,7 +8,7 @@ const Chat: React.FC = () => (
   <ChatProvider>
     <Header />
     <main className="flex justify-center h-full mt-[73px] sm:mt-0">
-      <div className="flex w-screen p-2 bg-white rounded-md shadow-xl mx-5% my-3%">
+      <div className="flex w-screen p-2 bg-white dark:bg-secondary-dark rounded-md shadow-xl mx-5% my-3%">
         <ChatList />
         <ChatContainer />
       </div>
