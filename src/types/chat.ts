@@ -5,4 +5,6 @@ export type Message = {
   from: string;
   to: string;
   message: string;
+  media: string | null;
+  audio: string | null;
 };

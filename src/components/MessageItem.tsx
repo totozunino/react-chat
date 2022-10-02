@@ -9,6 +9,7 @@ export interface MessageItemProps {
 
 const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
   const isMine = message.from === auth.currentUser?.uid;
+
   return (
     <li
       className={`text-white max-w-prose flex flex-col relative px-4 pt-3 bg-fixed bg-gradient-to-b from-emerald-500 to-green-700 w-fit ${
@@ -18,6 +19,12 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
       }`}
     >
       {message.message}
+      {message.media && <img src={message.media} alt="message pic" className="max-w-xs" />}
+      {message.audio && (
+        <audio controls src={message.audio}>
+          <track kind="captions" />
+        </audio>
+      )}
       <small className="text-xs">{formatDistance(message.createdAt.toDate(), Date.now(), { addSuffix: true })}</small>
     </li>
   );

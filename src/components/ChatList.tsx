@@ -38,6 +38,7 @@ const ChatList: React.FC = () => {
           ))}
         </ul>
       )}
+      <p> </p>
     </div>
   );
 };

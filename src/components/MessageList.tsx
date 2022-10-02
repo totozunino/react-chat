@@ -8,7 +8,7 @@ const MessageList: React.FC = () => {
 
   return (
     <ul
-      className="w-full p-4 overflow-y-auto bg-gray-100 bg-center bg-cover border-t dark:border-input-dark dark:bg-secondary-dark h-60vh bg-chat-pattern"
+      className="w-full p-4 overflow-y-auto bg-gray-100 bg-center bg-cover border-t dark:border-input-dark dark:bg-secondary-dark h-60vh"
       id="messages-list"
     >
       <TransitionGroup>

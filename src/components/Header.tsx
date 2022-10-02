@@ -40,7 +40,7 @@ const Header: React.FC = () => {
       <div className="relative flex ml-auto">
         <ThemeToggle />
         <button type="button" onClick={() => setShowDropdown((prevState) => !prevState)}>
-          <img src={currentUser?.photoURL || AvatarImg} alt="Profile Avatar" className="w-12 rounded-full" />
+          <img src={currentUser?.photoURL ?? AvatarImg} alt="Profile Avatar" className="w-12 rounded-full" />
         </button>
         {showDropdown && (
           <div
