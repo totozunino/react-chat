@@ -11,12 +11,12 @@ type ChatContextProps = {
 
 const ChatContext = React.createContext<ChatContextProps>({
   selectedUser: null,
-  setSelectedUser: () => {},
+  setSelectedUser: () => null,
   messages: [],
-  setMessages: () => {},
+  setMessages: () => null,
 });
 
-export const ChatProvider: React.FC = ({ children }) => {
+export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
 

@@ -2,16 +2,15 @@ import React from "react";
 import AvatarImg from "assets/images/avatar.png";
 import Button from "components/UI/Button";
 import { useNavigate } from "react-router-dom";
+import { User } from "types/user";
 
 export interface UserItemProps {
-  id: string;
-  email: string;
-  username: string;
-  photoURL: string;
+  user: User;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ id, email, username, photoURL }) => {
+const UserItem: React.FC<UserItemProps> = ({ user }) => {
   const navigate = useNavigate();
+  const { email, id, photoURL, username } = user;
 
   return (
     <div className="flex items-center p-8 my-6 bg-white shadow-md dark:bg-secondary-dark rounded-tl-3xl rounded-br-3xl">

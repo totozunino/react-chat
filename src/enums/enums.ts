@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export enum FirebaseErrorCodes {
   WEAK_PASSWORD = "auth/weak-password",
   EMAIL_IN_USE = "auth/email-already-in-use",

@@ -33,7 +33,7 @@ const UserList: React.FC = () => {
         className="bg-gray-200"
       />
       {isLoading && <Loader />}
-      {!isLoading && users.map((user) => <UserItem key={user.id} {...user} />)}
+      {!isLoading && users.map((user) => <UserItem key={user.id} user={user} />)}
       {!isLoading && !users.length && (
         <h1 className="my-8 text-2xl font-bold">Could not find users with that criteria 😵‍💫</h1>
       )}

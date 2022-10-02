@@ -12,7 +12,7 @@ const AuthContext = React.createContext<AuthContextProps>({
 
 export const useAuth = (): AuthContextProps => useContext(AuthContext);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isPending, setIsPending] = useState(true);
 
