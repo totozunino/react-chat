@@ -1,39 +1,23 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "pages/Login";
 import SignUp from "pages/SignUp";
 import Home from "pages/Home";
 import Chat from "pages/Chat";
-import ProtectedRoute from "components/ProtectedRoute";
-import { useAuth } from "contexts/auth-context";
+import PublicRoute from "components/PublicRoute";
+import PrivateRoute from "components/PrivateRoute";
 
-const App: React.FC = () => {
-  const { currentUser } = useAuth();
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/chat"
-          element={
-            <ProtectedRoute>
-              <Chat />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/login" element={currentUser ? <Navigate to="/" replace /> : <Login />} />
-        <Route path="/signup" element={currentUser ? <Navigate to="/" replace /> : <SignUp />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+const App: React.FC = () => (
+  <Routes>
+    <Route element={<PublicRoute />}>
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<SignUp />} />
+    </Route>
+    <Route element={<PrivateRoute />}>
+      <Route index element={<Home />} />
+      <Route path="chat" element={<Chat />} />
+    </Route>
+  </Routes>
+);
 
 export default App;
