@@ -1,7 +1,7 @@
-import React from "react";
+import { FC } from "react";
 import LoginForm from "components/LoginForm";
 
-const Login: React.FC = () => (
+const Login: FC = () => (
   <main className="flex items-center justify-center h-screen bg-center bg-cover bg-chat-pattern">
     <LoginForm />
   </main>

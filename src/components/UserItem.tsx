@@ -21,13 +21,8 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
         <p className="text-sm truncate font-extralight">{email}</p>
       </div>
       <div className="ml-auto text-xs">
-        <Button
-          label="Start conversation"
-          type="button"
-          onClick={() => navigate("/chat")}
-          className="hidden sm:block"
-        />
-        <Button label="💬" type="button" className="block sm:hidden" onClick={() => navigate("/chat")} />
+        <Button text="Start conversation" type="button" onClick={() => navigate("/chat")} className="hidden sm:block" />
+        <Button text="💬" type="button" className="block sm:hidden" onClick={() => navigate("/chat")} />
       </div>
     </div>
   );
