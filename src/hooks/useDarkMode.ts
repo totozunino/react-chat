@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-// eslint-disable-next-line import/prefer-default-export
 export const useDarkMode = () => {
   const [isDarkMode, setDarkMode] = useState(() => localStorage.theme === "dark");
 

@@ -1,16 +1,14 @@
-import React from "react";
-
-type InputType = "text" | "password" | "number";
+import { FC, InputHTMLAttributes, ChangeEvent } from "react";
 
 export interface InputProps {
   placeholder?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
-  type?: InputType;
+  type?: InputHTMLAttributes<HTMLInputElement>["type"];
   className?: string;
 }
 
-const Input: React.FC<InputProps> = ({ placeholder, onChange, value, type = "text", className = "" }) => (
+const Input: FC<InputProps> = ({ placeholder, onChange, value, type = "text", className = "" }) => (
   <input
     type={type}
     placeholder={placeholder}

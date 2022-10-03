@@ -6,6 +6,7 @@ import Home from "pages/Home";
 import Chat from "pages/Chat";
 import PublicRoute from "components/PublicRoute";
 import PrivateRoute from "components/PrivateRoute";
+import { ChatProvider } from "contexts/chat-context";
 
 const App: React.FC = () => (
   <Routes>
@@ -13,7 +14,13 @@ const App: React.FC = () => (
       <Route path="login" element={<Login />} />
       <Route path="sign-up" element={<SignUp />} />
     </Route>
-    <Route element={<PrivateRoute />}>
+    <Route
+      element={
+        <ChatProvider>
+          <PrivateRoute />
+        </ChatProvider>
+      }
+    >
       <Route index element={<Home />} />
       <Route path="chat" element={<Chat />} />
     </Route>

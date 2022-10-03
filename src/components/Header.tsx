@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef, FC } from "react";
 import ThemeToggle from "components/ThemeToggle";
 import AvatarImg from "assets/images/avatar.png";
 import { ReactComponent as ReactLogo } from "logo.svg";
@@ -7,25 +7,36 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
 import { doc, updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import { auth, db } from "../firebase";
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownToggleRef = useRef<HTMLButtonElement>(null);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  useOnClickOutside(dropdownRef, () => {
-    if (showDropdown) setShowDropdown(false);
-  });
+  useOnClickOutside(
+    dropdownRef,
+    () => {
+      if (showDropdown) setShowDropdown(false);
+    },
+    dropdownToggleRef,
+  );
 
   const handleSignOut = async () => {
-    if (currentUser)
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        isOnline: false,
-      });
-    await signOut(auth);
-    navigate("/login", { replace: true });
+    try {
+      if (currentUser) {
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          isOnline: false,
+        });
+      }
+      await signOut(auth);
+      navigate("/login", { replace: true });
+    } catch (err) {
+      toast.error("Something went wrong. Please try later");
+    }
   };
 
   return (
@@ -39,13 +50,17 @@ const Header: React.FC = () => {
       </div>
       <div className="relative flex ml-auto">
         <ThemeToggle />
-        <button type="button" onClick={() => setShowDropdown((prevState) => !prevState)}>
-          <img src={currentUser?.photoURL ?? AvatarImg} alt="Profile Avatar" className="w-12 rounded-full" />
+        <button ref={dropdownToggleRef} type="button" onClick={() => setShowDropdown((prev) => !prev)}>
+          <img
+            src={currentUser?.photoURL ?? AvatarImg}
+            alt="Profile Avatar"
+            className="w-12 rounded-full pointer-events-none"
+          />
         </button>
         {showDropdown && (
           <div
             ref={dropdownRef}
-            className="absolute right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-secondary-dark w-44 top-14"
+            className="absolute right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-secondary-dark top-14"
           >
             <div className="px-4 py-3">
               <span className="block text-sm">{currentUser?.displayName}</span>
@@ -58,7 +73,7 @@ const Header: React.FC = () => {
                   type="button"
                   onClick={handleSignOut}
                 >
-                  Sign out
+                  Log out
                 </button>
               </li>
             </ul>

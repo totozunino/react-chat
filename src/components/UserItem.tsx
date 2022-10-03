@@ -1,16 +1,24 @@
-import React from "react";
+import { FC } from "react";
 import AvatarImg from "assets/images/avatar.png";
 import Button from "components/UI/Button";
 import { useNavigate } from "react-router-dom";
 import { User } from "types/user";
+import { useChat } from "contexts/chat-context";
 
 export interface UserItemProps {
   user: User;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ user }) => {
-  const navigate = useNavigate();
+const UserItem: FC<UserItemProps> = ({ user }) => {
   const { email, id, photoURL, username } = user;
+
+  const navigate = useNavigate();
+  const { setSelectedUser } = useChat();
+
+  const handleStartConversation = () => {
+    setSelectedUser(user);
+    navigate("/chat");
+  };
 
   return (
     <div className="flex items-center p-8 my-6 bg-white shadow-md dark:bg-secondary-dark rounded-tl-3xl rounded-br-3xl">
@@ -21,7 +29,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
         <p className="text-sm truncate font-extralight">{email}</p>
       </div>
       <div className="ml-auto text-xs">
-        <Button text="Start conversation" type="button" onClick={() => navigate("/chat")} className="hidden sm:block" />
+        <Button text="Start conversation" type="button" onClick={handleStartConversation} className="hidden sm:block" />
         <Button text="💬" type="button" className="block sm:hidden" onClick={() => navigate("/chat")} />
       </div>
     </div>

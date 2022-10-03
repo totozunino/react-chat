@@ -2,7 +2,7 @@ import { User } from "types/user";
 import { collection, CollectionReference, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-export default async function getUsers(search: string): Promise<User[]> {
+export async function getUsers(search: string): Promise<User[]> {
   const users: User[] = [];
 
   const usersRef = collection(db, "users") as CollectionReference<User>;

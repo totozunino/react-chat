@@ -1,38 +1,25 @@
-import React, { useState, useContext, useMemo, useEffect } from "react";
-import { Message } from "types/chat";
+import { useState, useContext, useMemo, Dispatch, SetStateAction, createContext, FC, ReactNode } from "react";
 import { User } from "types/user";
 
 type ChatContextProps = {
   selectedUser: User | null;
-  setSelectedUser: React.Dispatch<React.SetStateAction<User | null>>;
-  messages: Message[];
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  setSelectedUser: Dispatch<SetStateAction<User | null>>;
 };
 
-const ChatContext = React.createContext<ChatContextProps>({
+const ChatContext = createContext<ChatContextProps>({
   selectedUser: null,
   setSelectedUser: () => null,
-  messages: [],
-  setMessages: () => null,
 });
 
-export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ChatProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  useEffect(() => {
-    const messagesList = document.getElementById("messages-list") as HTMLUListElement;
-    if (messagesList) messagesList.scrollTop = messagesList.scrollHeight;
-  }, [messages]);
 
   const value = useMemo(
     () => ({
       selectedUser,
       setSelectedUser,
-      messages,
-      setMessages,
     }),
-    [selectedUser, setSelectedUser, messages, setMessages],
+    [selectedUser, setSelectedUser],
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

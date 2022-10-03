@@ -1,8 +1,8 @@
-import React from "react";
+import { FC } from "react";
 import Header from "components/Header";
 import UserList from "components/UserList";
 
-const Home: React.FC = () => (
+const Home: FC = () => (
   <>
     <Header />
     <main className="flex justify-center h-full mt-[73px] sm:mt-0">

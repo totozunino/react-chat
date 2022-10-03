@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import ChatItem from "components/ChatItem";
 import Loader from "components/UI/Loader";
 import { User } from "types/user";
 import { collection, CollectionReference, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-const ChatList: React.FC = () => {
+const ChatList: FC = () => {
   const [chats, setChats] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,7 +38,6 @@ const ChatList: React.FC = () => {
           ))}
         </ul>
       )}
-      <p> </p>
     </div>
   );
 };

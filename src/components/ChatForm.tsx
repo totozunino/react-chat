@@ -1,110 +1,89 @@
-import React, { useState, useRef } from "react";
+import { FC, FormEvent, useState, useRef, useEffect } from "react";
 import Input from "components/UI/Input";
 import { ReactComponent as SendMessage } from "assets/images/send-message.svg";
 import { ReactComponent as AttachFiles } from "assets/images/attach-files.svg";
 import { useChat } from "contexts/chat-context";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { useReactMediaRecorder } from "react-media-recorder";
 import { addSeconds, format } from "date-fns";
+import useAudioRecorder from "hooks/useAudioRecorder";
 import { auth, db, storage } from "../firebase";
 
-const ChatForm: React.FC = () => {
+const ChatForm: FC = () => {
   const [message, setMessage] = useState("");
   const [img, setImg] = useState<File | null>(null);
-  const [audioTime, setAudioTime] = useState(0);
-  const [intervalTimer, setIntervalTimer] = useState<NodeJS.Timer>();
+  const [sendAudio, setSendAudio] = useState(false);
   const imgPreviewRef = useRef<HTMLImageElement>(null);
   const { selectedUser } = useChat();
-  const { status, startRecording, stopRecording, clearBlobUrl, mediaBlobUrl } = useReactMediaRecorder({
-    audio: true,
-    onStop: async (blobUrl: string) => {
-      if (intervalTimer) {
-        clearInterval(intervalTimer);
-        setAudioTime(0);
-      }
-      if (selectedUser && auth.currentUser) {
-        const user1 = auth.currentUser.uid;
-        const user2 = selectedUser.id;
-        const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
+  const { startRecording, stopRecording, time, audio, isRecording } = useAudioRecorder();
 
-        await addDoc(collection(db, "chats", id, "messages"), {
-          message,
-          from: user1,
-          to: user2,
-          createdAt: Timestamp.fromDate(new Date()),
-          media: "",
-          audio: blobUrl,
+  useEffect(() => {
+    if (sendAudio && audio) {
+      const audioRef = ref(storage, `audios/${new Date().getTime()}`);
+      uploadBytes(audioRef, audio).then((snapshot) => {
+        getDownloadURL(ref(storage, snapshot.ref.fullPath)).then((url) => {
+          if (selectedUser && auth.currentUser) {
+            const user1 = auth.currentUser.uid;
+            const user2 = selectedUser.id;
+            const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
+            addDoc(collection(db, "chats", id, "messages"), {
+              message,
+              from: user1,
+              to: user2,
+              createdAt: Timestamp.fromDate(new Date()),
+              media: "",
+              audio: url,
+            });
+          }
         });
-      }
-    },
-  });
+      });
+    }
+  }, [audio]);
 
-  const handleNewMessage = async (e: React.FormEvent) => {
+  const handleNewMessage = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (message && selectedUser && auth.currentUser) {
+    if (!message && !img) return;
+
+    if (selectedUser && auth.currentUser) {
       const user1 = auth.currentUser.uid;
       const user2 = selectedUser.id;
       const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
 
       let url = "";
+
       if (img) {
         const imgRef = ref(storage, `images/${new Date().getTime()} - ${img.name}`);
         const snap = await uploadBytes(imgRef, img);
         url = await getDownloadURL(ref(storage, snap.ref.fullPath));
+        setImg(null);
       }
-      await addDoc(collection(db, "chats", id, "messages"), {
+
+      addDoc(collection(db, "chats", id, "messages"), {
         message,
         from: user1,
         to: user2,
         createdAt: Timestamp.fromDate(new Date()),
         media: url,
-        audio: mediaBlobUrl,
+        audio: null,
       });
 
       setMessage("");
-      setImg(null);
     }
   };
 
   const startSendAudio = () => {
+    setSendAudio(false);
     startRecording();
-    const interval = setInterval(() => {
-      setAudioTime((prevState) => prevState + 1);
-    }, 1000);
-
-    setIntervalTimer(interval);
   };
 
   const stopSendAudio = async () => {
     stopRecording();
-    if (intervalTimer) {
-      clearInterval(intervalTimer);
-      setAudioTime(0);
-    }
-    // if (selectedUser && auth.currentUser) {
-    //   const user1 = auth.currentUser.uid;
-    //   const user2 = selectedUser.id;
-    //   const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
-
-    //   await addDoc(collection(db, "chats", id, "messages"), {
-    //     message,
-    //     from: user1,
-    //     to: user2,
-    //     createdAt: Timestamp.fromDate(new Date()),
-    //     media: "",
-    //     audio: mediaBlobUrl,
-    //   });
-    // }
+    setSendAudio(true);
   };
 
   const cancelSendAudio = () => {
-    clearBlobUrl();
-    if (intervalTimer) {
-      clearInterval(intervalTimer);
-      setAudioTime(0);
-    }
+    stopRecording();
   };
 
   const formatAudioTime = (seconds: number) => {
@@ -115,7 +94,7 @@ const ChatForm: React.FC = () => {
   return (
     <form onSubmit={handleNewMessage} className="flex flex-col items-center justify-center w-full">
       {img && (
-        <div className="w-full px-4">
+        <div className="w-full pt-3 pl-4">
           <div className="relative w-12 h-12">
             <img
               className="w-12 h-12"
@@ -128,10 +107,10 @@ const ChatForm: React.FC = () => {
             />
             <button
               type="button"
-              className="absolute w-6 h-6 text-sm rounded-full -top-2 -right-2 bg-emerald-600"
+              className="absolute flex items-center justify-center w-4 h-4 pb-1 text-sm text-white rounded-full -top-1 -right-1 bg-emerald-600"
               onClick={() => setImg(null)}
             >
-              X
+              x
             </button>
           </div>
         </div>
@@ -156,7 +135,7 @@ const ChatForm: React.FC = () => {
           onChange={({ target }) => setMessage(target.value)}
         />
         <div className="flex items-center p-1 text-xl rounded-full bg-emerald-600">
-          {status === "recording" ? (
+          {isRecording ? (
             <>
               <button type="button" className="pl-2 text-sm" onClick={stopSendAudio}>
                 ✅
@@ -165,7 +144,7 @@ const ChatForm: React.FC = () => {
                 <span className="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-95 animate-ping" />
                 <span className="relative inline-flex w-3 h-3 bg-red-500 rounded-full" />
               </span>
-              {formatAudioTime(audioTime)}
+              {formatAudioTime(time)}
               <button type="button" className="px-2 text-sm" onClick={cancelSendAudio}>
                 ❌
               </button>

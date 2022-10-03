@@ -1,7 +1,7 @@
-import React from "react";
+import { FC } from "react";
 import { useDarkMode } from "hooks/useDarkMode";
 
-const ThemeToggle: React.FC = () => {
+const ThemeToggle: FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
@@ -10,7 +10,7 @@ const ThemeToggle: React.FC = () => {
         <button
           type="button"
           onClick={toggleDarkMode}
-          className="text-2xl text-gray-500 cursor-pointer dark:text-gray-400"
+          className="p-2 text-2xl text-gray-500 transition-all rounded-lg cursor-pointer dark:text-gray-400 hover:bg-slate-700"
         >
           🌞
         </button>
@@ -18,7 +18,7 @@ const ThemeToggle: React.FC = () => {
         <button
           type="button"
           onClick={toggleDarkMode}
-          className="text-2xl text-gray-500 cursor-pointer dark:text-gray-400"
+          className="p-2 text-2xl text-gray-500 transition-all rounded-lg cursor-pointer dark:text-gray-400 hover:bg-gray-100"
         >
           🌙
         </button>
